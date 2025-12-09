@@ -8,5 +8,12 @@ export default [
   ...defineConfig([
     reactHooks.configs.flat["recommended-latest"],
     reactRefresh.configs.recommended,
+    {
+      languageOptions: {
+        parserOptions: {
+          project: null,
+        },
+      },
+    },
   ]),
 ];
