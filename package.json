@@ -10,6 +10,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
