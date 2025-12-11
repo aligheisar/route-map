@@ -46,6 +46,6 @@ class RouteMap<Ctx extends string> {
 
 export {
   RouteMap,
-  type ResolvedNavItem as RouteItemType,
-  type ResolvedChildNavItem as ChildRouteItemType,
+  type ResolvedNavItem as NavItemType,
+  type ResolvedChildNavItem as ChildNavItemType,
 };
