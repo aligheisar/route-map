@@ -1,7 +1,6 @@
 import {
   BaseRouteItem,
   ChildRouteItem,
-  ResolvedChildRouteItem,
   ResolvedRouteItem,
 } from "../types/route-item";
 import { authCheck } from "./auth-check";
@@ -25,10 +24,10 @@ const resolveOrder = <T extends string>(
 const resolveChildNavItem = (
   item: ChildRouteItem[],
   loggedIn: boolean,
-): ResolvedChildRouteItem[] => {
+): ResolvedRouteItem[] => {
   return item
     .filter((i) => authCheck(i.auth, loggedIn))
-    .map<ResolvedChildRouteItem>((i) => ({
+    .map<ResolvedRouteItem>((i) => ({
       href: i.href,
       Icon: i.Icon,
       title: i.title,

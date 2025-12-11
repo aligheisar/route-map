@@ -1,8 +1,4 @@
-import {
-  BaseRouteItem,
-  ResolvedRouteItem,
-  ResolvedChildRouteItem,
-} from "./types/route-item";
+import { BaseRouteItem, ResolvedRouteItem } from "./types/route-item";
 import { BuiltNavigation } from "./types/navigation-generator";
 import { capitalize } from "./utils/capitalize";
 import { resolveItems } from "./utils/resolvers";
@@ -44,8 +40,4 @@ class RouteMap<Ctx extends string> {
   }
 }
 
-export {
-  RouteMap,
-  type ResolvedRouteItem as RouteItemType,
-  type ResolvedChildRouteItem as ChildRouteItemType,
-};
+export { RouteMap, type ResolvedRouteItem as RouteItemType };

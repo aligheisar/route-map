@@ -2,42 +2,30 @@ import { ComponentType } from "react";
 
 type Auth = "authenticated" | "guest";
 type IconType = ComponentType<{ className?: string }>;
-type RouteChildren = ChildRouteItem[] | ComponentType;
 
 type BaseRouteItem<Ctx extends readonly string[]> = {
   href: string;
-  Icon: IconType;
+  Icon?: IconType;
   title: string | Record<Ctx[number], string>;
   order: number | Record<Ctx[number], number>;
   auth?: Auth;
-  Children?: RouteChildren;
+  Children?: ChildRouteItem[] | ComponentType;
   showIn: Ctx;
 };
 
-type ChildRouteItem = Pick<
-  BaseRouteItem<string[]>,
+type ChildRouteItem<Ctx extends readonly string[] = string[]> = Pick<
+  BaseRouteItem<Ctx>,
   "href" | "auth" | "Children"
 > & {
-  title: string;
+  title: BaseRouteItem<Ctx>["href"];
   Icon?: IconType;
 };
 
-type ResolvedRouteItem = {
-  href: BaseRouteItem<string[]>["href"];
-  Icon: IconType;
+type ResolvedRouteItem<Ctx extends readonly string[] = string[]> = {
+  href: BaseRouteItem<Ctx>["href"];
+  Icon?: IconType;
   title: string;
-  Children?: RouteChildren;
+  Children?: ResolvedRouteItem[] | ComponentType;
 };
 
-type ResolvedChildRouteItem = Pick<
-  ChildRouteItem,
-  "Children" | "href" | "Icon" | "title"
->;
-
-export type {
-  BaseRouteItem,
-  ChildRouteItem,
-  ResolvedRouteItem,
-  ResolvedChildRouteItem,
-  Auth,
-};
+export type { BaseRouteItem, ChildRouteItem, ResolvedRouteItem, Auth };
