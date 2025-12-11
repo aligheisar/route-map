@@ -1,11 +1,14 @@
-import { ResolvedNavItem } from "./nav-item";
+import { ResolvedRouteItem } from "./route-item";
 
 type BuiltNavigation<AllCtx extends string> = {
-  getRoutes: (context: AllCtx, loggedIn: boolean) => readonly ResolvedNavItem[];
+  getRoutes: (
+    context: AllCtx,
+    loggedIn: boolean,
+  ) => readonly ResolvedRouteItem[];
 } & {
   [K in Capitalize<AllCtx> as `get${K}Routes`]: (
     loggedIn: boolean,
-  ) => readonly ResolvedNavItem[];
+  ) => readonly ResolvedRouteItem[];
 };
 
 export type { BuiltNavigation };

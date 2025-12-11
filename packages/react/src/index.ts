@@ -1,18 +1,18 @@
 import {
-  BaseNavItem,
-  ResolvedNavItem,
-  ResolvedChildNavItem,
-} from "./types/nav-item";
+  BaseRouteItem,
+  ResolvedRouteItem,
+  ResolvedChildRouteItem,
+} from "./types/route-item";
 import { BuiltNavigation } from "./types/navigation-generator";
 import { capitalize } from "./utils/capitalize";
 import { resolveItems } from "./utils/resolvers";
 
 class RouteMap<Ctx extends string> {
-  private items: BaseNavItem<readonly Ctx[]>[] = [];
+  private items: BaseRouteItem<readonly Ctx[]>[] = [];
 
   add<S extends readonly Ctx[]>(
     showIn: S,
-    cfg: Omit<BaseNavItem<S>, "showIn">,
+    cfg: Omit<BaseRouteItem<S>, "showIn">,
   ): this {
     this.items.push({
       ...cfg,
@@ -29,7 +29,7 @@ class RouteMap<Ctx extends string> {
     const getRoutes = (
       context: Ctx,
       loggedIn: boolean,
-    ): readonly ResolvedNavItem[] => {
+    ): readonly ResolvedRouteItem[] => {
       return resolveItems(this.items, context, loggedIn);
     };
 
@@ -46,6 +46,6 @@ class RouteMap<Ctx extends string> {
 
 export {
   RouteMap,
-  type ResolvedNavItem as NavItemType,
-  type ResolvedChildNavItem as ChildNavItemType,
+  type ResolvedRouteItem as RouteItemType,
+  type ResolvedChildRouteItem as ChildRouteItemType,
 };

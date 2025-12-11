@@ -2,42 +2,42 @@ import { ComponentType } from "react";
 
 type Auth = "authenticated" | "guest";
 type Icon = ComponentType<{ className?: string }>;
-type NavChildren = ChildNavItem[] | ComponentType;
+type RouteChildren = ChildRouteItem[] | ComponentType;
 
-type BaseNavItem<Ctx extends readonly string[]> = {
+type BaseRouteItem<Ctx extends readonly string[]> = {
   href: string;
   icon: Icon;
   title: string | Record<Ctx[number], string>;
   order: number | Record<Ctx[number], number>;
   auth?: Auth;
-  children?: NavChildren;
+  children?: RouteChildren;
   showIn: Ctx;
 };
 
-type ChildNavItem = Pick<
-  BaseNavItem<string[]>,
+type ChildRouteItem = Pick<
+  BaseRouteItem<string[]>,
   "href" | "auth" | "children"
 > & {
   title: string;
   icon?: Icon;
 };
 
-type ResolvedNavItem = {
-  href: BaseNavItem<string[]>["href"];
+type ResolvedRouteItem = {
+  href: BaseRouteItem<string[]>["href"];
   icon: Icon;
   title: string;
-  children?: NavChildren;
+  children?: RouteChildren;
 };
 
-type ResolvedChildNavItem = Pick<
-  ChildNavItem,
+type ResolvedChildRouteItem = Pick<
+  ChildRouteItem,
   "children" | "href" | "icon" | "title"
 >;
 
 export type {
-  BaseNavItem,
-  ChildNavItem,
-  ResolvedNavItem,
-  ResolvedChildNavItem,
+  BaseRouteItem,
+  ChildRouteItem,
+  ResolvedRouteItem,
+  ResolvedChildRouteItem,
   Auth,
 };

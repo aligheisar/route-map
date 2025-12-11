@@ -3,7 +3,7 @@ import {
   ChildNavItem,
   ResolvedChildNavItem,
   ResolvedNavItem,
-} from "../types/nav-item";
+} from "../types/route-item";
 import { authCheck } from "./auth-check";
 
 const resolveTitle = <T extends string>(

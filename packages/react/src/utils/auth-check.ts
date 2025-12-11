@@ -1,4 +1,4 @@
-import { Auth } from "../types/nav-item";
+import { Auth } from "../types/route-item";
 
 const authCheck = (auth: Auth | undefined, loggedIn: boolean): boolean => {
   if (!auth) return true;
