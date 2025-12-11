@@ -9,7 +9,13 @@ export default defineConfig([
   {
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
-  { languageOptions: { parserOptions: { project: null } } },
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   {
     rules: {
       "@typescript-eslint/no-unused-vars": [
