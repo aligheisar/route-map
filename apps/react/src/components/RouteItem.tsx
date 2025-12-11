@@ -1,11 +1,12 @@
 import type { RouteItemType } from "@route-map/react";
-import { ChildRouteItem } from "./ChildRouteItem";
 
 const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
   return (
-    <a href={href} style={{ position: "relative" }}>
-      <Icon />
-      {title}
+    <div style={{ position: "relative" }}>
+      <a href={href}>
+        {Icon && <Icon />}
+        {title}
+      </a>
       {Children ? (
         typeof Children === "function" ? (
           <Children />
@@ -19,12 +20,12 @@ const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
             }}
           >
             {Children.map((item) => (
-              <ChildRouteItem key={item.href} {...item} />
+              <RouteItem key={item.href} {...item} />
             ))}
           </div>
         )
       ) : null}
-    </a>
+    </div>
   );
 };
 

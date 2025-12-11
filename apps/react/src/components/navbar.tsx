@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getNavbarRoutes } from "../config/navigation";
-import { RouteItem } from "./route-item/RouteItem";
+import { RouteItem } from "./RouteItem";
 
 const Navbar = () => {
   return (
@@ -15,11 +15,15 @@ const NavbarItems = () => {
   const routes = getNavbarRoutes(isLoggedIn);
 
   return (
-    <section style={{ display: "flex", gap: "8px" }}>
-      <button onClick={() => setIsLoggedIn((prev) => !prev)}></button>
-      {routes.map((item) => (
-        <RouteItem key={item.href} {...item} />
-      ))}
+    <section style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <button onClick={() => setIsLoggedIn((prev) => !prev)}>
+        toggle login
+      </button>
+      <div style={{ display: "flex", gap: "8px" }}>
+        {routes.map((item) => (
+          <RouteItem key={item.href} {...item} />
+        ))}
+      </div>
     </section>
   );
 };
