@@ -1,8 +1,8 @@
 import {
-  BaseNavItem,
-  ChildNavItem,
-  ResolvedChildNavItem,
-  ResolvedNavItem,
+  BaseRouteItem,
+  ChildRouteItem,
+  ResolvedChildRouteItem,
+  ResolvedRouteItem,
 } from "../types/route-item";
 import { authCheck } from "./auth-check";
 
@@ -23,25 +23,25 @@ const resolveOrder = <T extends string>(
 };
 
 const resolveChildNavItem = (
-  item: ChildNavItem[],
+  item: ChildRouteItem[],
   loggedIn: boolean,
-): ResolvedChildNavItem[] => {
+): ResolvedChildRouteItem[] => {
   return item
     .filter((i) => authCheck(i.auth, loggedIn))
-    .map<ResolvedChildNavItem>((i) => ({
+    .map<ResolvedChildRouteItem>((i) => ({
       href: i.href,
-      icon: i.icon,
+      Icon: i.Icon,
       title: i.title,
-      children: i.children
-        ? typeof i.children === "function"
-          ? i.children
-          : resolveChildNavItem(i.children, loggedIn)
+      Children: i.Children
+        ? typeof i.Children === "function"
+          ? i.Children
+          : resolveChildNavItem(i.Children, loggedIn)
         : undefined,
     }));
 };
 
 const resolveItems = <Ctx extends string>(
-  items: BaseNavItem<readonly Ctx[]>[],
+  items: BaseRouteItem<readonly Ctx[]>[],
   context: Ctx,
   loggedIn: boolean,
 ) => {
@@ -50,14 +50,14 @@ const resolveItems = <Ctx extends string>(
     .sort(
       (a, b) => resolveOrder(a.order, context) - resolveOrder(b.order, context),
     )
-    .map<ResolvedNavItem>((i) => ({
+    .map<ResolvedRouteItem>((i) => ({
       href: i.href,
-      icon: i.icon,
+      Icon: i.Icon,
       title: resolveTitle(i.title, context),
-      children: i.children
-        ? typeof i.children === "function"
-          ? i.children
-          : resolveChildNavItem(i.children, loggedIn)
+      Children: i.Children
+        ? typeof i.Children === "function"
+          ? i.Children
+          : resolveChildNavItem(i.Children, loggedIn)
         : undefined,
     }));
 };
