@@ -7,6 +7,7 @@ on context and authentication state.
 
 - Central navigation configuration.
 - Context-aware titles and ordering.
+- Allows rendering React components as children of a route.
 - Authentication-based filtering.
 - Simple add → build workflow.
 
@@ -18,30 +19,60 @@ import { RouteMap } from "@route-map/react";
 const navigation = new RouteMap<"navbar" | "sidebar">()
   .add(["navbar", "sidebar"], {
     href: "/",
-    icon: Icon,
-    title: { sidebar: "Main", navbar: "Home" },
-    order: { navbar: 2, sidebar: 1 },
-    // if you don't set auth property it show the route to authenticated and guest users
+    Icon: HomeIcon,
+    title: { sidebar: "Main", navbar: "Home" }, // Different titles per context, or one title for all contexts
+    order: 1, // Different order values per context, or one for all
+    // If auth is not set, the route is shown to both authenticated and guest users
   })
   .add(["sidebar"], {
     href: "/login",
-    icon: Icon,
+    Icon: LoginIcon,
     title: "Login",
     order: 2,
-    auth: "guest", // Show only if user not logged in
+    auth: "guest", // Only shown when the user is not logged in
   })
-  .add(["sidebar"], {
-    href: "/profile",
-    icon: Icon,
-    title: "Profile",
+  .add(["navbar"], {
+    href: "/notifications",
+    Icon: NotificationIcon,
+    title: "Notifications",
     order: 2,
-    auth: "authenticated", // Show only if user logged in
+    auth: "authenticated",
+    Children: NotificationPanel, // Example: render it on hover/focus
+  })
+  .add(["sidebar", "navbar"], {
+    href: "/profile",
+    Icon: ProfileIcon,
+    title: "Profile",
+    order: { sidebar: 2, navbar: 3 },
+    auth: "authenticated", // Only shown when the user is logged in
+    Children: [
+      // Route nesting is unlimited
+      { href: "/profile/cart", title: "Cart", Icon: CartIcon },
+      {
+        href: "/profile/settings",
+        title: "Settings",
+        Icon: SettingsIcon,
+        Children: [
+          {
+            href: "/profile/settings#security",
+            title: "Security",
+            Icon: SecurityIcon,
+          },
+          {
+            href: "/profile/settings#accessibility",
+            title: "Accessibility",
+            Icon: AccessibilityIcon,
+          },
+        ],
+      },
+    ],
   })
   .build();
 
 // Generated helpers
-const navbarRoutes = navigation.getNavbarRoutes(false); // Passing the login state of the user
-const sidebarRoutes = navigation.getSidebarRoutes(true);
+navigation.getRoutes(context, isLoggedIn);
+navigation.getNavbarRoutes(isLoggedIn);
+navigation.getSidebarRoutes(isLoggedIn);
 ```
 
 ## How It Works
@@ -55,6 +86,27 @@ const sidebarRoutes = navigation.getSidebarRoutes(true);
 ## Rendering Example
 
 ```tsx
+function RouteItem(route: RouteItemType) {
+  return (
+    <div>
+      <a href={route.href}>
+        {route.Icon && <route.Icon />}
+        {route.title}
+      </a>
+      {route.Children &&
+        (typeof route.Children === "function" ? (
+          <route.Children />
+        ) : (
+          <div>
+            {route.Children.map((route) => (
+              <RouteItem key={route.href} {...route} />
+            ))}
+          </div>
+        ))}
+    </div>
+  );
+}
+
 function Navbar() {
   const currentUser = getCurrentUser();
   const routes = navigation.getNavbarRoutes(!!currentUser);
@@ -62,9 +114,7 @@ function Navbar() {
   return (
     <nav>
       {routes.map((route) => (
-        <a key={route.href} href={route.href}>
-          {route.title}
-        </a>
+        <RouteItem key={route.href} {...route} />
       ))}
     </nav>
   );
