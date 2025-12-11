@@ -1,12 +1,7 @@
 import type { RouteItemType } from "@route-map/react";
 import { ChildRouteItem } from "./ChildRouteItem";
 
-const RouteItem = ({
-  href,
-  icon: Icon,
-  title,
-  children: Children,
-}: RouteItemType) => {
+const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
   return (
     <a href={href}>
       <Icon />

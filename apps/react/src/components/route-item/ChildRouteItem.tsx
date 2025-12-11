@@ -3,8 +3,8 @@ import type { ChildRouteItemType } from "@route-map/react";
 const ChildRouteItem = ({
   href,
   title,
-  children: Children,
-  icon: Icon,
+  Children,
+  Icon,
 }: ChildRouteItemType) => {
   return (
     <div data-href={href}>
