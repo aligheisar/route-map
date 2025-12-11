@@ -3,14 +3,21 @@ import { ChildRouteItem } from "./ChildRouteItem";
 
 const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
   return (
-    <a href={href}>
+    <a href={href} style={{ position: "relative" }}>
       <Icon />
       {title}
       {Children ? (
         typeof Children === "function" ? (
           <Children />
         ) : (
-          <div style={{ background: "red", width: "fit-content" }}>
+          <div
+            style={{
+              background: "red",
+              width: "max-content",
+              position: "absolute",
+              left: "100%",
+            }}
+          >
             {Children.map((item) => (
               <ChildRouteItem key={item.href} {...item} />
             ))}
