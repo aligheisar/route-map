@@ -4,8 +4,8 @@
 
 ### Minor Changes
 
-- - Optional generic parameters for href and icon.
-  - Improve type inference for route items.
+- Optional generic parameters for href and icon.
+- Improve type inference for route items.
 
 ## 0.0.5
 
