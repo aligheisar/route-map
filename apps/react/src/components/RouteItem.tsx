@@ -1,6 +1,11 @@
-import type { RouteItemType } from "@route-map/react";
+import type { RouteItemType } from "../config/navigation";
 
-const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
+const RouteItem = ({
+  href,
+  Icon,
+  title,
+  Children,
+}: RouteItemType) => {
   return (
     <div style={{ position: "relative" }}>
       <a href={href}>
