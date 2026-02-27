@@ -21,13 +21,13 @@ const resolveOrder = <T extends string>(
   return value[context];
 };
 
-const resolveChildNavItem = (
-  item: ChildRouteItem[],
+const resolveChildNavItem = <Ctx extends string[], Routes, Ic>(
+  item: ChildRouteItem<Ctx, Routes, Ic>[],
   loggedIn: boolean,
-): ResolvedRouteItem[] => {
+): ResolvedRouteItem<Ctx, Routes, Ic>[] => {
   return item
     .filter((i) => authCheck(i.auth, loggedIn))
-    .map<ResolvedRouteItem>((i) => ({
+    .map<ResolvedRouteItem<Ctx, Routes, Ic>>((i) => ({
       href: i.href,
       Icon: i.Icon,
       title: i.title,
@@ -39,8 +39,8 @@ const resolveChildNavItem = (
     }));
 };
 
-const resolveItems = <Ctx extends string>(
-  items: BaseRouteItem<readonly Ctx[]>[],
+const resolveItems = <Ctx extends string, Routes, Ic>(
+  items: BaseRouteItem<readonly Ctx[], Routes, Ic>[],
   context: Ctx,
   loggedIn: boolean,
 ) => {
@@ -49,7 +49,7 @@ const resolveItems = <Ctx extends string>(
     .sort(
       (a, b) => resolveOrder(a.order, context) - resolveOrder(b.order, context),
     )
-    .map<ResolvedRouteItem>((i) => ({
+    .map<ResolvedRouteItem<string[], Routes, Ic>>((i) => ({
       href: i.href,
       Icon: i.Icon,
       title: resolveTitle(i.title, context),

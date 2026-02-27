@@ -1,12 +1,14 @@
-import type { RouteItemType } from "../config/navigation";
+import type { RouteItemType } from "@/config/navigation";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 
 const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
   return (
     <div style={{ position: "relative" }}>
-      <a href={href}>
-        {Icon && <Icon />}
+      <Link href={href}>
+        {Icon && <HugeiconsIcon icon={Icon} />}
         {title}
-      </a>
+      </Link>
       {Children ? (
         typeof Children === "function" ? (
           <Children />
@@ -20,7 +22,7 @@ const RouteItem = ({ href, Icon, title, Children }: RouteItemType) => {
             }}
           >
             {Children.map((item) => (
-              <RouteItem key={item.href} {...item} />
+              <RouteItem key={item.href.toString()} {...item} />
             ))}
           </div>
         )

@@ -1,14 +1,18 @@
-import { BaseRouteItem, ResolvedRouteItem } from "./types/route-item";
-import { BuiltNavigation } from "./types/navigation-generator";
+import type { ComponentType } from "react";
+import type { BaseRouteItem, ResolvedRouteItem } from "./types/route-item";
+import type {
+  BuiltNavigation,
+  InferRouteItem,
+} from "./types/navigation-generator";
 import { capitalize } from "./utils/capitalize";
 import { resolveItems } from "./utils/resolvers";
 
-class RouteMap<Ctx extends string> {
-  private items: BaseRouteItem<readonly Ctx[]>[] = [];
+class RouteMap<Ctx extends string, Routes = string, Ic = ComponentType> {
+  private items: BaseRouteItem<readonly Ctx[], Routes, Ic>[] = [];
 
   add<S extends readonly Ctx[]>(
     showIn: S,
-    cfg: Omit<BaseRouteItem<S>, "showIn">,
+    cfg: Omit<BaseRouteItem<S, Routes, Ic>, "showIn">,
   ): this {
     this.items.push({
       ...cfg,
@@ -17,7 +21,7 @@ class RouteMap<Ctx extends string> {
     return this;
   }
 
-  build(): BuiltNavigation<Ctx> {
+  build(): BuiltNavigation<Ctx, Routes, Ic> {
     const allContexts = Array.from(
       new Set(this.items.flatMap((i) => i.showIn)),
     );
@@ -25,7 +29,7 @@ class RouteMap<Ctx extends string> {
     const getRoutes = (
       context: Ctx,
       loggedIn: boolean,
-    ): readonly ResolvedRouteItem[] => {
+    ): readonly ResolvedRouteItem<string[], Routes, Ic>[] => {
       return resolveItems(this.items, context, loggedIn);
     };
 
@@ -36,8 +40,8 @@ class RouteMap<Ctx extends string> {
       api[key] = (loggedIn: boolean) => getRoutes(ctx, loggedIn);
     }
 
-    return api as BuiltNavigation<Ctx>;
+    return api as BuiltNavigation<Ctx, Routes, Ic>;
   }
 }
 
-export { RouteMap, type ResolvedRouteItem as RouteItemType };
+export { RouteMap, type InferRouteItem };
